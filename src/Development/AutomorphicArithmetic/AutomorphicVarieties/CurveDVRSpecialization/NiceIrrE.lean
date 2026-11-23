@@ -1,12 +1,16 @@
 module
 
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.FrobeniusSmoothVectors.LeAdicClosure
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.BaseRepGL3NormalisedOfPsiEqOne
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.FrobeniusSmoothVectors.AddMulSelfEqOfOrthogonalIdempotents
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.FrobeniusSmoothVectors.ArtinRees
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.FrobeniusSmoothVectors.CoB
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CurveDVRSpecialization.SecondThirdPrimeConditionTransferAlt
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CurveDVRSpecialization.IrrNormal
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CurveDVRSpecialization.NiceSep
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.FrobeniusSmoothVectors.CharpolyFlag
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.FrobeniusSmoothVectors.LocRho
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.FrobeniusSmoothVectors.TwoDim
-import Mathlib.Algebra.AffineMonoid.UniqueSums
+public import Mathlib.Topology.Algebra.Group.ClosedSubgroup
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -25,10 +29,6 @@ import Mathlib.NumberTheory.Height.NumberField
 import Mathlib.NumberTheory.Height.Projectivization
 import Mathlib.NumberTheory.LucasLehmer
 import Mathlib.NumberTheory.SelbergSieve
-import Mathlib.RingTheory.AdicCompletion.Noetherian
-import Mathlib.RingTheory.Coalgebra.IsFrobenius
-import Mathlib.RingTheory.HopfAlgebra.Basic
-import Mathlib.RingTheory.PowerSeries.Inverse
 import Mathlib.RingTheory.Radical.NatInt
 import Mathlib.RingTheory.WittVector.IsPoly
 import Mathlib.Tactic.Basify
@@ -40,8 +40,6 @@ import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
 import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
 import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
 import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
-import Mathlib.Tactic.Lemma
-import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
 import Mathlib.Tactic.NormNum.Irrational
 import Mathlib.Tactic.NormNum.IsCoprime
@@ -58,8 +56,112 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import Mathlib.Topology.Algebra.Group.ClosedSubgroup
+import Std.Tactic.BVDecide.Normalize.Prop
+import Mathlib.Algebra.AffineMonoid.UniqueSums
+import Mathlib.RingTheory.AdicCompletion.Noetherian
+import Mathlib.RingTheory.Coalgebra.IsFrobenius
+import Mathlib.RingTheory.HopfAlgebra.Basic
+import Mathlib.RingTheory.PowerSeries.Inverse
+import Mathlib.Tactic.Lemma
+import Mathlib.Tactic.Linter.HaveILetI
 
+-- This file was produced by scripts/clump.py from the modules listed below.
+-- Members: Development.AutomorphicArithmetic.AutomorphicVarieties.FrobeniusSmoothVectors.TwoDim, Development.AutomorphicArithmetic.AutomorphicVarieties.CurveDVRSpecialization.NiceIrrE
+
+-- ===== clump member: Development.AutomorphicArithmetic.AutomorphicVarieties.FrobeniusSmoothVectors.TwoDim =====
+-- clump-header: {"m": "Development.AutomorphicArithmetic.AutomorphicVarieties.FrobeniusSmoothVectors.TwoDim", "h": "module\n\npublic import Development.AutomorphicArithmetic.AutomorphicVarieties.FrobeniusSmoothVectors.LeAdicClosure\npublic import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.BaseRepGL3NormalisedOfPsiEqOne\npublic import Development.AutomorphicArithmetic.AutomorphicVarieties.FrobeniusSmoothVectors.AddMulSelfEqOfOrthogonalIdempotents\npublic import Development.AutomorphicArithmetic.AutomorphicVarieties.FrobeniusSmoothVectors.ArtinRees\npublic import Development.AutomorphicArithmetic.AutomorphicVarieties.FrobeniusSmoothVectors.CoB\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.Analysis.Complex.UpperHalfPlane.Basic\nimport Mathlib.Analysis.Normed.Algebra.GelfandRadius\nimport Mathlib.Analysis.SpecialFunctions.Bernstein\nimport Mathlib.Analysis.SpecialFunctions.Gamma.Basic\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Data.Nat.Choose.Multinomial\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.RingTheory.WittVector.IsPoly\nimport Mathlib.Tactic.Basify\nimport Mathlib.Tactic.ENatToNat\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.Linter.Style\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\nimport Mathlib.Tactic.Polynomial.Basic\nimport Mathlib.Tactic.ReduceModChar\nimport Mathlib.Topology.Sheaves.Init\nimport Std.Tactic.BVDecide.Normalize.Prop\n\n"}
+section -- clump:auto
+@[expose] public section
+
+open IsLocalRing Matrix UpperTheory.V.Alg UpperTheory.V.U3 UpperTheory.V.Fr
+
+private theorem two_dim {K : Type} [Field K] (W : Submodule K (Fin 2 → K))
+    (hE : ∀ v ∈ W, (![v 0, 0] : Fin 2 → K) ∈ W) (a b : Matrix (Fin 2) (Fin 2) K)
+    (ha : ∀ v ∈ W, a *ᵥ v ∈ W) (hb : ∀ v ∈ W, b *ᵥ v ∈ W) (ha' : a 1 0 ≠ 0) (hb' : b 0 1 ≠ 0) :
+    W = ⊥ ∨ W = ⊤ := by
+  have h0 : ∀ v ∈ W, v 0 ≠ 0 → (![1, 0] : Fin 2 → K) ∈ W := fun v hv h => by
+    convert W.smul_mem (v 0)⁻¹ (hE v hv) using 1
+    ext i; fin_cases i <;> simp [h]
+  have h1 : ∀ v ∈ W, v 1 ≠ 0 → (![0, 1] : Fin 2 → K) ∈ W := fun v hv h => by
+    convert W.smul_mem (v 1)⁻¹ (W.sub_mem hv (hE v hv)) using 1
+    ext i; fin_cases i <;> simp [h, vecHead, vecTail]
+  have h01 : (![1, 0] : Fin 2 → K) ∈ W → (![0, 1] : Fin 2 → K) ∈ W := fun h =>
+    h1 _ (ha _ h) (by simpa [Matrix.mulVec, dotProduct, Fin.sum_univ_two] using ha')
+  have h10 : (![0, 1] : Fin 2 → K) ∈ W → (![1, 0] : Fin 2 → K) ∈ W := fun h =>
+    h0 _ (hb _ h) (by simpa [Matrix.mulVec, dotProduct, Fin.sum_univ_two] using hb')
+  rw [or_iff_not_imp_left]
+  intro hW
+  obtain ⟨v, hv, hv0⟩ := (Submodule.ne_bot_iff W).1 hW
+  have key : (![1, 0] : Fin 2 → K) ∈ W ∧ (![0, 1] : Fin 2 → K) ∈ W := by
+    by_cases h : v 0 = 0
+    · have h' : v 1 ≠ 0 := fun h' => hv0 (by ext i; fin_cases i <;> simp [h, h'])
+      exact ⟨h10 (h1 v hv h'), h1 v hv h'⟩
+    · exact ⟨h0 v hv h, h01 (h0 v hv h)⟩
+  rw [eq_top_iff]
+  intro x _
+  convert W.add_mem (W.smul_mem (x 0) key.1) (W.smul_mem (x 1) key.2) using 1
+  ext i; fin_cases i <;> simp
+
+theorem UpperTheory.V.Fr.typeE :
+    ∀ {l : ℕ} [Fact l.Prime] {O : Type} [CommRing O] [IsDomain O] [IsDiscreteValuationRing O] [IsCoef l O] {F : Frame l (ResidueField O)} {C₀ : ℕ}, F.Ok C₀ → ∀ S : Space O F 3, ∀ (K : Type) [Field K] (f : S.A →+* K), S.u.TE (RingHom.ker f) → MatIrr ⊤ fun g : F.G0 => ((S.u.map f).r g).submatrix ![0, 2] ![0, 2] := by
+  intro l _ O _ _ _ _ F C₀ hF S K _ f hT W hW
+  obtain ⟨⟨hP, hM⟩, -, hee⟩ := hT
+  obtain ⟨hco, -⟩ := co_B hF (Or.inr rfl) S
+  have hid := idem hF (Or.inr rfl) S.B S.A S.u (cone_u hF (Or.inr rfl) S).2 0
+  have hspan : ∀ M ∈ Submodule.span S.B (Set.range S.u.r), ∀ v ∈ W,
+      ((M.map f).submatrix ![0, 2] ![0, 2]) *ᵥ v ∈ W := by
+    intro M hM
+    induction hM using Submodule.span_induction with
+    | mem x hx =>
+      obtain ⟨g, rfl⟩ := hx
+      exact hW g (Subgroup.mem_top g)
+    | zero =>
+      intro v _
+      rw [Matrix.map_zero _ (map_zero f), Matrix.submatrix_zero]
+      simp
+    | add x y _ _ hx hy =>
+      intro v hv
+      convert W.add_mem (hx v hv) (hy v hv) using 1
+      rw [← Matrix.add_mulVec]
+      congr 1
+      ext i j
+      exact map_add f _ _
+    | smul c x _ hx =>
+      intro v hv
+      convert W.smul_mem (f (algebraMap S.B S.A c)) (hx v hv) using 1
+      rw [← Matrix.smul_mulVec]
+      congr 1
+      ext i j
+      exact map_mul f (algebraMap S.B S.A c) _
+  have hodd : ∀ g i j, Odd (w 3 i - w 3 j) → f (S.u.r g i j) = 0 := fun g i j h =>
+    hee (Ideal.subset_span ⟨g, i, j, h, rfl⟩)
+  obtain ⟨g, hg⟩ : ∃ g, f (S.u.r g 2 0) ≠ 0 := by
+    by_contra hc
+    push Not at hc
+    refine hP (Ideal.span_le.2 ?_)
+    rintro x ⟨g, i, j, hij, rfl⟩
+    show f _ = 0
+    fin_cases i <;> fin_cases j <;>
+      first | exact absurd hij (by decide) | exact hc g | exact hodd g _ _ (by decide)
+  obtain ⟨g', hg'⟩ : ∃ g, f (S.u.r g 0 2) ≠ 0 := by
+    by_contra hc
+    push Not at hc
+    refine hM (Ideal.span_le.2 ?_)
+    rintro x ⟨g, i, j, hij, rfl⟩
+    show f _ = 0
+    fin_cases i <;> fin_cases j <;>
+      first | exact absurd hij (by decide) | exact hc g | exact hodd g _ _ (by decide)
+  refine two_dim W (fun v hv => ?_) _ _ (hW g (Subgroup.mem_top g)) (hW g' (Subgroup.mem_top g')) hg hg'
+  convert hspan _ hid v hv using 1
+  ext i
+  fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two, Matrix.single]
+end -- clump:auto
+end -- clump:auto
+-- ===== end clump member: Development.AutomorphicArithmetic.AutomorphicVarieties.FrobeniusSmoothVectors.TwoDim =====
+
+-- ===== clump member: Development.AutomorphicArithmetic.AutomorphicVarieties.CurveDVRSpecialization.NiceIrrE =====
+-- clump-header: {"m": "Development.AutomorphicArithmetic.AutomorphicVarieties.CurveDVRSpecialization.NiceIrrE", "h": "module\n\npublic import Development.AutomorphicArithmetic.AutomorphicVarieties.CurveDVRSpecialization.SecondThirdPrimeConditionTransferAlt\npublic import Development.AutomorphicArithmetic.AutomorphicVarieties.CurveDVRSpecialization.IrrNormal\npublic import Development.AutomorphicArithmetic.AutomorphicVarieties.CurveDVRSpecialization.NiceSep\npublic import Development.AutomorphicArithmetic.AutomorphicVarieties.FrobeniusSmoothVectors.CharpolyFlag\npublic import Development.AutomorphicArithmetic.AutomorphicVarieties.FrobeniusSmoothVectors.LocRho\npublic import Development.AutomorphicArithmetic.AutomorphicVarieties.FrobeniusSmoothVectors.TwoDim\nimport Mathlib.Algebra.AffineMonoid.UniqueSums\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.Analysis.Complex.UpperHalfPlane.Basic\nimport Mathlib.Analysis.Normed.Algebra.GelfandRadius\nimport Mathlib.Analysis.SpecialFunctions.Bernstein\nimport Mathlib.Analysis.SpecialFunctions.Gamma.Basic\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Data.Nat.Choose.Multinomial\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.AdicCompletion.Noetherian\nimport Mathlib.RingTheory.Coalgebra.IsFrobenius\nimport Mathlib.RingTheory.HopfAlgebra.Basic\nimport Mathlib.RingTheory.PowerSeries.Inverse\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.RingTheory.WittVector.IsPoly\nimport Mathlib.Tactic.Basify\nimport Mathlib.Tactic.ENatToNat\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.Lemma\nimport Mathlib.Tactic.Linter.HaveILetI\nimport Mathlib.Tactic.Linter.Style\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\nimport Mathlib.Tactic.Polynomial.Basic\nimport Mathlib.Tactic.ReduceModChar\nimport Mathlib.Topology.Sheaves.Init\npublic import Mathlib.Topology.Algebra.Group.ClosedSubgroup\n\n"}
+section -- clump:auto
 @[expose] public section
 
 open Matrix Polynomial IsLocalRing UpperTheory.V.U3 UpperTheory.V.Fr
@@ -256,3 +358,6 @@ theorem UpperTheory.V.Pr.niceIrrE :
     exact map_mul φ _ _
   simp only [h2, smul_mulVec] at h1
   exact (Y.smul_mem_iff (((T.K.κA y.A g).isUnit.map φ).ne_zero)).1 h1
+end -- clump:auto
+end -- clump:auto
+-- ===== end clump member: Development.AutomorphicArithmetic.AutomorphicVarieties.CurveDVRSpecialization.NiceIrrE =====

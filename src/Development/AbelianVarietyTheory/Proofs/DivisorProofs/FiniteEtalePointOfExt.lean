@@ -1,19 +1,507 @@
 module
 
-public import Mathlib
+public import Mathlib.AlgebraicGeometry.Morphisms.Etale
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsCompletedStrictHens
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsBasePointOfFiniteEtaleOverAlgClosed
 public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.MorphismsSpreadOutToFgSubalgebra
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.AbelianSchemeQuotients.IsAbelianScheme
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.OActDescendOfGenerators
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ThetaTestPowerIntegral
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsSubgroupEqRangeOfLists
+public import Mathlib
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.AbelianSchemeLawsUnconditional
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.SemistableExtensionMultiplesOfSemistable
 public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.IsAbelianSchemeAndExtendOfGenericHoms
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.FinitePointsOfIsOpenImmersion
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsSubgroupEqRangeOfLists
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.IsIsoIffBijectiveOverAlgClosed
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.FormallyUnramifiedOfTangentMapInjective
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.OActDescendOfGenerators
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsBasePointOfFiniteEtaleOverAlgClosedStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsAbelianEndomorphismSpreadSpecialiseStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SpreadEndomorphismTorsionSectionEqSpecialisationStatement
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.CubicalStructures.CubeSymmetricSwapFirst
+import Mathlib.AlgebraicGeometry.Morphisms.WeaklyEtale
+import Mathlib.AlgebraicGeometry.Sites.Fpqc
+import Mathlib.CategoryTheory.ExtremalEpi
+import Mathlib.FieldTheory.PurelyInseparable.Exponent
+import Mathlib.RingTheory.Coalgebra.IsFrobenius
+import Mathlib.RingTheory.Henselian
+import Mathlib.RingTheory.RegularLocalRing.Defs
+import Mathlib.RingTheory.SimpleRing.Principal
+import Mathlib.RingTheory.TotallySplit
+import Mathlib.Tactic.Linter.HaveILetI
+import Mathlib.Tactic.Linter.Style
+import Mathlib.AlgebraicGeometry.Modules.Sheaf
+import Mathlib.RingTheory.WittVector.IsPoly
 
+-- This file was produced by scripts/clump.py from the modules listed below.
+-- Members: Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsBasePointOfFiniteEtaleOverAlgClosedStatement, Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsAbelianEndomorphismSpreadSpecialise, Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsAbelianEndomorphismSpreadSpecialiseStatement, Development.AbelianVarietyTheory.Proofs.DivisorProofs.SpreadEndomorphismTorsionSectionEqSpecialisation, Development.AbelianVarietyTheory.Proofs.DivisorProofs.SpreadEndomorphismTorsionSectionEqSpecialisationStatement, Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteEtalePointOfExt
+
+-- ===== clump member: Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsBasePointOfFiniteEtaleOverAlgClosedStatement =====
+-- clump-header: {"m": "Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsBasePointOfFiniteEtaleOverAlgClosedStatement", "h": "module\n\npublic import Mathlib.AlgebraicGeometry.Morphisms.Etale\npublic import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsCompletedStrictHens\npublic import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsBasePointOfFiniteEtaleOverAlgClosed\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.Analysis.Complex.UpperHalfPlane.Basic\nimport Mathlib.Analysis.Normed.Algebra.GelfandRadius\nimport Mathlib.Analysis.SpecialFunctions.Bernstein\nimport Mathlib.Analysis.SpecialFunctions.Gamma.Basic\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Data.Nat.Choose.Multinomial\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\nimport ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.CubicalStructures.CubeSymmetricSwapFirst\n\n"}
+section -- clump:auto
+@[expose] public section
+
+open CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor
+open scoped CategoryTheory.Obj
+
+theorem _root_.GlobalTheory.T.exists_base_point_of_finite_etale_over_algClosed : ∀ (k₀ K : Type) [Field k₀] [IsAlgClosed k₀] [Field K] [Algebra k₀ K] (X : Scheme.{0}) (p : X ⟶ Sp k₀), IsFinite p → Etale p → ∀ x : Sp K ⟶ X, x ≫ p = spMap (algebraMap k₀ K) → ∃ x₀ : Sp k₀ ⟶ X, x₀ ≫ p = 𝟙 _ ∧ spMap (algebraMap k₀ K) ≫ x₀ = x := by
+  first | exact @GlobalTheory.FinEtPoints.exists_point_of_finite_etale | exact GlobalTheory.FinEtPoints.exists_point_of_finite_etale | (intros; apply GlobalTheory.FinEtPoints.exists_point_of_finite_etale <;> assumption)
+end -- clump:auto
+end -- clump:auto
+-- ===== end clump member: Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsBasePointOfFiniteEtaleOverAlgClosedStatement =====
+
+-- ===== clump member: Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsAbelianEndomorphismSpreadSpecialise =====
+-- clump-header: {"m": "Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsAbelianEndomorphismSpreadSpecialise", "h": "module\n\npublic import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.MorphismsSpreadOutToFgSubalgebra\npublic import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.AbelianSchemeQuotients.IsAbelianScheme\npublic import Development.AbelianVarietyTheory.Proofs.ModuliProofs.OActDescendOfGenerators\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.AlgebraicGeometry.Morphisms.WeaklyEtale\nimport Mathlib.AlgebraicGeometry.Sites.Fpqc\nimport Mathlib.Analysis.Complex.UpperHalfPlane.Basic\nimport Mathlib.Analysis.Normed.Algebra.GelfandRadius\nimport Mathlib.Analysis.SpecialFunctions.Bernstein\nimport Mathlib.Analysis.SpecialFunctions.Gamma.Basic\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.CategoryTheory.ExtremalEpi\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Data.Nat.Choose.Multinomial\nimport Mathlib.FieldTheory.PurelyInseparable.Exponent\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.Coalgebra.IsFrobenius\nimport Mathlib.RingTheory.Henselian\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.RingTheory.RegularLocalRing.Defs\nimport Mathlib.RingTheory.SimpleRing.Principal\nimport Mathlib.RingTheory.TotallySplit\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.Linter.HaveILetI\nimport Mathlib.Tactic.Linter.Style\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\n\n"}
+section -- clump:auto
+@[expose] public section
+
+open CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor
+open scoped CategoryTheory.Obj
+
+noncomputable section
+
+namespace GlobalTheory.Spread
+
+theorem eta_pullback_fst {S S' : Scheme.{0}} (G : Over S) [GrpObj G] [IsCommMonObj G] (j : S' ⟶ S)
+    [IsCommMonObj ((Over.pullback j).obj G)] :
+    η[(Over.pullback j).obj G].left ≫ pullback.fst G.hom j = j ≫ η[G].left := by
+  simp
+  all_goals first
+  | (simp only [pullback.lift_fst]; rw [← Category.assoc, ← pullback.condition, Category.comp_id])
+  | (erw [pullback.lift_fst]; rw [← Category.assoc, ← pullback.condition, Category.comp_id])
+
+theorem eta_left_hom {S : Scheme.{0}} (G : Over S) [GrpObj G] :
+    η[G].left ≫ G.hom = 𝟙 _ := by
+  simpa using Over.w η[G]
+
+theorem nonempty_algHom_of_finiteType (k C : Type) [Field k] [IsAlgClosed k] [CommRing C] [Nontrivial C]
+    [Algebra k C] [Algebra.FiniteType k C] : Nonempty (C →ₐ[k] k) := by
+  obtain ⟨m, hm⟩ := Ideal.exists_maximal C
+  letI : Field (C ⧸ m) := Ideal.Quotient.field m
+  haveI : Algebra.FiniteType k (C ⧸ m) := Algebra.FiniteType.trans (S := C) inferInstance inferInstance
+  haveI : Module.Finite k (C ⧸ m) := finite_of_finite_type_of_isJacobsonRing k (C ⧸ m)
+  let e : k ≃ₐ[k] (C ⧸ m) := AlgEquiv.ofBijective (Algebra.ofId k (C ⧸ m))
+    IsAlgClosed.algebraMap_bijective_of_isIntegral
+  exact ⟨e.symm.toAlgHom.comp (Ideal.Quotient.mkₐ k m)⟩
+
+private theorem pullback_mu_fst_eq {S S' : Scheme.{0}} (G : Over S) [GrpObj G] (j : S' ⟶ S) :
+    μ[(Over.pullback j).obj G].left ≫ pullback.fst G.hom j =
+      pullback.lift ((fst ((Over.pullback j).obj G) ((Over.pullback j).obj G)).left ≫ pullback.fst G.hom j)
+        ((snd ((Over.pullback j).obj G) ((Over.pullback j).obj G)).left ≫ pullback.fst G.hom j)
+        (by
+          rw [Category.assoc, Category.assoc, pullback.condition, ← Category.assoc, ← Category.assoc]
+          congr 1
+          exact (Over.w (fst ((Over.pullback j).obj G) ((Over.pullback j).obj G))).trans
+            (Over.w (snd ((Over.pullback j).obj G) ((Over.pullback j).obj G))).symm) ≫ μ[G].left := by
+  simp
+  rw [← Category.assoc]
+  congr 1
+  apply pullback.hom_ext
+  · rw [Category.assoc]
+    erw [Over.μ_pullback_left_fst_fst, pullback.lift_fst]
+    try rfl
+  · rw [Category.assoc]
+    erw [Over.μ_pullback_left_fst_snd, pullback.lift_snd]
+    try rfl
+
+private theorem bcMap_comp_pullback_map {k₀ K : Type} [Field k₀] [Field K] [Algebra k₀ K] (R : Subalgebra k₀ K)
+    {X Y : Over (Sp k₀)} (u : X ⟶ Y) :
+    bcMap X.hom R.val ≫ ((Over.pullback (spMap (algebraMap k₀ R))).map u).left =
+      ((Over.pullback (spMap (algebraMap k₀ K))).map u).left ≫ bcMap Y.hom R.val := by
+  apply pullback.hom_ext
+  · simp only [Category.assoc, GlobalTheory.ActDescent.pullback_map_left_fst, bcMap_fst_assoc, bcMap_fst]
+  · have e1 : ((Over.pullback (spMap (algebraMap k₀ R))).map u).left ≫ pullback.snd Y.hom _ =
+        pullback.snd X.hom _ := Over.w _
+    have e2 : ((Over.pullback (spMap (algebraMap k₀ K))).map u).left ≫ pullback.snd Y.hom _ =
+        pullback.snd X.hom _ := Over.w _
+    rw [Category.assoc, e1, Category.assoc, bcMap_snd, bcMap_snd, ← Category.assoc, e2]
+
+
+
+theorem exists_endo_spread_specialise : ∀ (k₀ K : Type) [Field k₀] [IsAlgClosed k₀] [Field K] [Algebra k₀ K]
+    (B : Over (Sp k₀)) [GrpObj B], IsAbelianScheme B →
+    ∀ f : (Over.pullback (spMap (algebraMap k₀ K))).obj B ⟶ (Over.pullback (spMap (algebraMap k₀ K))).obj B,
+    IsMonHom f → ∃ (R : Subalgebra k₀ K) (g : R →ₐ[k₀] k₀)
+      (Ψ : (Over.pullback (spMap (algebraMap k₀ R))).obj B ⟶ (Over.pullback (spMap (algebraMap k₀ R))).obj B)
+      (f₀ : B ⟶ B) (σ : B.left ⟶ pullback B.hom (spMap (algebraMap k₀ R))),
+      IsMonHom Ψ ∧ IsMonHom f₀ ∧ GlobalTheory.Spread.bcMap B.hom R.val ≫ Ψ.left ≫ pullback.fst _ _ = f.left ≫ pullback.fst _ _ ∧
+      σ ≫ pullback.fst _ _ = 𝟙 _ ∧ σ ≫ pullback.snd _ _ = B.hom ≫ spMap g.toRingHom ∧
+      f₀.left = σ ≫ Ψ.left ≫ pullback.fst _ _ := by
+  intro k₀ K _ _ _ _ B _ hB f hf
+  have : IsCommMonObj B := hB.comm
+  have : Smooth B.hom := hB.smooth
+  have : IsProper B.hom := hB.proper
+  have hw : f.left ≫ pullback.snd B.hom (spMap (algebraMap k₀ K)) = pullback.snd _ _ := Over.w f
+  have hφ : (f.left ≫ pullback.fst B.hom (spMap (algebraMap k₀ K))) ≫ B.hom =
+      pullback.fst B.hom (spMap (algebraMap k₀ K)) ≫ B.hom := by
+    rw [Category.assoc, pullback.condition, ← Category.assoc, hw]
+  obtain ⟨R, ψ, hRfg, hψ1, hψ2⟩ := exists_fg_comp_eq B.hom B.hom
+    (f.left ≫ pullback.fst B.hom (spMap (algebraMap k₀ K))) hφ
+  have hcond : ψ ≫ B.hom = pullback.snd B.hom (spMap (algebraMap k₀ R)) ≫ spMap (algebraMap k₀ R) := by
+    rw [hψ1, pullback.condition]
+  let Ψl : pullback B.hom (spMap (algebraMap k₀ R)) ⟶ pullback B.hom (spMap (algebraMap k₀ R)) :=
+    pullback.lift ψ (pullback.snd _ _) hcond
+  have hΨfst : Ψl ≫ pullback.fst _ _ = ψ := pullback.lift_fst _ _ _
+  have hΨsnd : Ψl ≫ pullback.snd _ _ = pullback.snd _ _ := pullback.lift_snd _ _ _
+  let Ψ : (Over.pullback (spMap (algebraMap k₀ R))).obj B ⟶ (Over.pullback (spMap (algebraMap k₀ R))).obj B :=
+    Over.homMk Ψl hΨsnd
+  haveI : Algebra.FiniteType k₀ R := (Subalgebra.fg_iff_finiteType R).mp hRfg
+  obtain ⟨g⟩ := nonempty_algHom_of_finiteType k₀ R
+  have hgc : spMap g.toRingHom ≫ spMap (algebraMap k₀ R) = 𝟙 _ := by
+    first
+    | (rw [spMap_algHom_comp, Algebra.algebraMap_self]; simp [spMap])
+    | (rw [spMap_algHom_comp]; simp [spMap])
+  let σ : B.left ⟶ pullback B.hom (spMap (algebraMap k₀ R)) :=
+    pullback.lift (𝟙 _) (B.hom ≫ spMap g.toRingHom)
+      (by rw [Category.id_comp, Category.assoc, hgc, Category.comp_id])
+  have hσfst : σ ≫ pullback.fst _ _ = 𝟙 _ := pullback.lift_fst _ _ _
+  have hσsnd : σ ≫ pullback.snd _ _ = B.hom ≫ spMap g.toRingHom := pullback.lift_snd _ _ _
+  have hf0w : (σ ≫ Ψl ≫ pullback.fst _ _) ≫ B.hom = B.hom := by
+    rw [hΨfst, Category.assoc, hψ1, ← Category.assoc, hσfst, Category.id_comp]
+  let f₀ : B ⟶ B := Over.homMk (σ ≫ Ψl ≫ pullback.fst _ _) hf0w
+
+  have hηR : η[(Over.pullback (spMap (algebraMap k₀ R))).obj B].left ≫ pullback.fst B.hom _ =
+      spMap (algebraMap k₀ R) ≫ η[B].left := eta_pullback_fst B _
+  have hηK : η[(Over.pullback (spMap (algebraMap k₀ K))).obj B].left ≫ pullback.fst B.hom _ =
+      spMap (algebraMap k₀ K) ≫ η[B].left := eta_pullback_fst B _
+  have hηRs : η[(Over.pullback (spMap (algebraMap k₀ R))).obj B].left ≫ pullback.snd B.hom _ = 𝟙 (Sp R) :=
+    Over.w η[(Over.pullback (spMap (algebraMap k₀ R))).obj B]
+  have hηKs : η[(Over.pullback (spMap (algebraMap k₀ K))).obj B].left ≫ pullback.snd B.hom _ = 𝟙 (Sp K) :=
+    Over.w η[(Over.pullback (spMap (algebraMap k₀ K))).obj B]
+  have hbcη : spMap R.val.toRingHom ≫ η[(Over.pullback (spMap (algebraMap k₀ R))).obj B].left =
+      η[(Over.pullback (spMap (algebraMap k₀ K))).obj B].left ≫ bcMap B.hom R.val := by
+    apply pullback.hom_ext
+    · rw [Category.assoc, hηR, Category.assoc, bcMap_fst, hηK, ← Category.assoc, spMap_algHom_comp]
+    · rw [Category.assoc, hηRs, Category.comp_id, Category.assoc, bcMap_snd, ← Category.assoc, hηKs,
+        Category.id_comp]
+  have hfη : η[(Over.pullback (spMap (algebraMap k₀ K))).obj B].left ≫ f.left =
+      η[(Over.pullback (spMap (algebraMap k₀ K))).obj B].left := by
+    rw [← Over.comp_left, IsMonHom.one_hom f]
+  have hinj : Function.Injective R.val.toRingHom := Subtype.val_injective
+  have hone : η[(Over.pullback (spMap (algebraMap k₀ R))).obj B].left ≫ ψ =
+      η[(Over.pullback (spMap (algebraMap k₀ R))).obj B].left ≫ pullback.fst _ _ := by
+    apply point_ext R.val.toRingHom hinj B.hom
+    · rw [Category.assoc, Category.assoc, hψ1]
+    · calc spMap R.val.toRingHom ≫ η[(Over.pullback (spMap (algebraMap k₀ R))).obj B].left ≫ ψ
+          = η[(Over.pullback (spMap (algebraMap k₀ K))).obj B].left ≫ bcMap B.hom R.val ≫ ψ := by
+            rw [← Category.assoc, hbcη, Category.assoc]
+        _ = η[(Over.pullback (spMap (algebraMap k₀ K))).obj B].left ≫ f.left ≫ pullback.fst _ _ := by
+            rw [hψ2]
+        _ = η[(Over.pullback (spMap (algebraMap k₀ K))).obj B].left ≫ pullback.fst _ _ := by
+            rw [← Category.assoc, hfη]
+        _ = spMap R.val.toRingHom ≫ η[(Over.pullback (spMap (algebraMap k₀ R))).obj B].left ≫
+              pullback.fst _ _ := by
+            rw [← Category.assoc, hbcη, Category.assoc, bcMap_fst]
+  have hΨone : η[(Over.pullback (spMap (algebraMap k₀ R))).obj B] ≫ Ψ =
+      η[(Over.pullback (spMap (algebraMap k₀ R))).obj B] := by
+    apply Over.OverMorphism.ext
+    apply pullback.hom_ext
+    · show (η[(Over.pullback (spMap (algebraMap k₀ R))).obj B].left ≫ Ψl) ≫ _ = _
+      rw [Category.assoc, hΨfst, hone]
+    · show (η[(Over.pullback (spMap (algebraMap k₀ R))).obj B].left ≫ Ψl) ≫ _ = _
+      rw [Category.assoc, hΨsnd]
+
+  have hbcμ := bcMap_comp_pullback_map R μ[B]
+  have hbcfst := bcMap_comp_pullback_map R (fst B B)
+  have hbcsnd := bcMap_comp_pullback_map R (snd B B)
+  have hδμR : (Functor.OplaxMonoidal.δ (Over.pullback (spMap (algebraMap k₀ R))) B B).left ≫ μ[((Over.pullback (spMap (algebraMap k₀ R))).obj B)].left =
+      ((Over.pullback (spMap (algebraMap k₀ R))).map μ[B]).left := by
+    rw [← Over.comp_left]; congr 1; simp
+  have hδμK : (Functor.OplaxMonoidal.δ (Over.pullback (spMap (algebraMap k₀ K))) B B).left ≫ μ[((Over.pullback (spMap (algebraMap k₀ K))).obj B)].left =
+      ((Over.pullback (spMap (algebraMap k₀ K))).map μ[B]).left := by
+    rw [← Over.comp_left]; congr 1; simp
+  have hδfR : (Functor.OplaxMonoidal.δ (Over.pullback (spMap (algebraMap k₀ R))) B B).left ≫ (fst ((Over.pullback (spMap (algebraMap k₀ R))).obj B) ((Over.pullback (spMap (algebraMap k₀ R))).obj B)).left =
+      ((Over.pullback (spMap (algebraMap k₀ R))).map (fst B B)).left := by
+    rw [← Over.comp_left, Functor.OplaxMonoidal.δ_fst]
+  have hδsR : (Functor.OplaxMonoidal.δ (Over.pullback (spMap (algebraMap k₀ R))) B B).left ≫ (snd ((Over.pullback (spMap (algebraMap k₀ R))).obj B) ((Over.pullback (spMap (algebraMap k₀ R))).obj B)).left =
+      ((Over.pullback (spMap (algebraMap k₀ R))).map (snd B B)).left := by
+    rw [← Over.comp_left, Functor.OplaxMonoidal.δ_snd]
+  have hδfK : (Functor.OplaxMonoidal.δ (Over.pullback (spMap (algebraMap k₀ K))) B B).left ≫ (fst ((Over.pullback (spMap (algebraMap k₀ K))).obj B) ((Over.pullback (spMap (algebraMap k₀ K))).obj B)).left =
+      ((Over.pullback (spMap (algebraMap k₀ K))).map (fst B B)).left := by
+    rw [← Over.comp_left, Functor.OplaxMonoidal.δ_fst]
+  have hδsK : (Functor.OplaxMonoidal.δ (Over.pullback (spMap (algebraMap k₀ K))) B B).left ≫ (snd ((Over.pullback (spMap (algebraMap k₀ K))).obj B) ((Over.pullback (spMap (algebraMap k₀ K))).obj B)).left =
+      ((Over.pullback (spMap (algebraMap k₀ K))).map (snd B B)).left := by
+    rw [← Over.comp_left, Functor.OplaxMonoidal.δ_snd]
+  have hffst : (f ⊗ₘ f).left ≫ (fst ((Over.pullback (spMap (algebraMap k₀ K))).obj B) ((Over.pullback (spMap (algebraMap k₀ K))).obj B)).left = (fst ((Over.pullback (spMap (algebraMap k₀ K))).obj B) ((Over.pullback (spMap (algebraMap k₀ K))).obj B)).left ≫ f.left := by
+    rw [← Over.comp_left, ← Over.comp_left, tensorHom_fst]
+  have hfsnd : (f ⊗ₘ f).left ≫ (snd ((Over.pullback (spMap (algebraMap k₀ K))).obj B) ((Over.pullback (spMap (algebraMap k₀ K))).obj B)).left = (snd ((Over.pullback (spMap (algebraMap k₀ K))).obj B) ((Over.pullback (spMap (algebraMap k₀ K))).obj B)).left ≫ f.left := by
+    rw [← Over.comp_left, ← Over.comp_left, tensorHom_snd]
+  have hfμ : μ[((Over.pullback (spMap (algebraMap k₀ K))).obj B)].left ≫ f.left = (f ⊗ₘ f).left ≫ μ[((Over.pullback (spMap (algebraMap k₀ K))).obj B)].left := by
+    rw [← Over.comp_left, ← Over.comp_left, IsMonHom.mul_hom f]
+  have hLc : ((fst ((Over.pullback (spMap (algebraMap k₀ R))).obj B) ((Over.pullback (spMap (algebraMap k₀ R))).obj B)).left ≫ ψ) ≫ B.hom = ((snd ((Over.pullback (spMap (algebraMap k₀ R))).obj B) ((Over.pullback (spMap (algebraMap k₀ R))).obj B)).left ≫ ψ) ≫ B.hom := by
+    rw [Category.assoc, Category.assoc, hψ1, pullback.condition, ← Category.assoc, ← Category.assoc]
+    congr 1
+    exact (Over.w (fst ((Over.pullback (spMap (algebraMap k₀ R))).obj B) ((Over.pullback (spMap (algebraMap k₀ R))).obj B))).trans (Over.w (snd ((Over.pullback (spMap (algebraMap k₀ R))).obj B) ((Over.pullback (spMap (algebraMap k₀ R))).obj B))).symm
+  have hμψ : μ[((Over.pullback (spMap (algebraMap k₀ R))).obj B)].left ≫ ψ =
+      pullback.lift ((fst ((Over.pullback (spMap (algebraMap k₀ R))).obj B) ((Over.pullback (spMap (algebraMap k₀ R))).obj B)).left ≫ ψ) ((snd ((Over.pullback (spMap (algebraMap k₀ R))).obj B) ((Over.pullback (spMap (algebraMap k₀ R))).obj B)).left ≫ ψ) hLc ≫ μ[B].left := by
+    haveI : IsIso (Functor.OplaxMonoidal.δ (Over.pullback (spMap (algebraMap k₀ R))) B B).left :=
+      (inferInstance : IsIso ((Over.forget _).map (Functor.OplaxMonoidal.δ (Over.pullback (spMap (algebraMap k₀ R))) B B)))
+    rw [← cancel_epi (Functor.OplaxMonoidal.δ (Over.pullback (spMap (algebraMap k₀ R))) B B).left, ← Category.assoc, hδμR]
+    apply hom_ext_bcMap (B ⊗ B).hom R.val hinj B.hom
+    · have e1 : ((Over.pullback (spMap (algebraMap k₀ R))).map μ[B]).left ≫ pullback.snd B.hom (spMap (algebraMap k₀ R)) =
+          pullback.snd (B ⊗ B).hom (spMap (algebraMap k₀ R)) := Over.w _
+      have e2 : μ[B].left ≫ B.hom = pullback.fst B.hom B.hom ≫ B.hom := Over.w μ[B]
+      have e3 : (Functor.OplaxMonoidal.δ (Over.pullback (spMap (algebraMap k₀ R))) B B).left ≫
+          (fst ((Over.pullback (spMap (algebraMap k₀ R))).obj B) ((Over.pullback (spMap (algebraMap k₀ R))).obj B)).left ≫ pullback.snd B.hom (spMap (algebraMap k₀ R)) = pullback.snd (B ⊗ B).hom (spMap (algebraMap k₀ R)) := by
+        rw [← Category.assoc, hδfR]; exact Over.w _
+      rw [Category.assoc, hcond, ← Category.assoc, e1, Category.assoc, Category.assoc, e2]
+      erw [pullback.lift_fst_assoc]
+      rw [Category.assoc, hcond, ← Category.assoc, ← Category.assoc, Category.assoc _ _ (pullback.snd _ _), e3]
+    · try simp only [Category.assoc]
+      rw [reassoc_of% hbcμ, hψ2, ← hδμK]
+      try simp only [Category.assoc]
+      rw [reassoc_of% hfμ, pullback_mu_fst_eq]
+      try simp only [← Category.assoc]
+      congr 1
+      apply pullback.hom_ext
+      · try simp only [Category.assoc]
+        erw [pullback.lift_fst, pullback.lift_fst]
+        rw [reassoc_of% hffst, reassoc_of% hδfK, reassoc_of% hδfR, reassoc_of% hbcfst, hψ2]
+      · try simp only [Category.assoc]
+        erw [pullback.lift_snd, pullback.lift_snd]
+        rw [reassoc_of% hfsnd, reassoc_of% hδsK, reassoc_of% hδsR, reassoc_of% hbcsnd, hψ2]
+  have hΨmul : μ[((Over.pullback (spMap (algebraMap k₀ R))).obj B)] ≫ Ψ = (Ψ ⊗ₘ Ψ) ≫ μ[((Over.pullback (spMap (algebraMap k₀ R))).obj B)] := by
+    apply Over.OverMorphism.ext
+    apply pullback.hom_ext
+    · show (μ[((Over.pullback (spMap (algebraMap k₀ R))).obj B)].left ≫ Ψl) ≫ _ = ((Ψ ⊗ₘ Ψ).left ≫ μ[((Over.pullback (spMap (algebraMap k₀ R))).obj B)].left) ≫ _
+      rw [Category.assoc, hΨfst, hμψ, Category.assoc, pullback_mu_fst_eq, ← Category.assoc (Ψ ⊗ₘ Ψ).left]
+      congr 1
+      apply pullback.hom_ext
+      · erw [pullback.lift_fst, Category.assoc, pullback.lift_fst]
+        rw [← Category.assoc, ← Over.comp_left, tensorHom_fst, Over.comp_left, Category.assoc]
+        show _ = _ ≫ Ψl ≫ _
+        rw [hΨfst]
+      · erw [pullback.lift_snd, Category.assoc, pullback.lift_snd]
+        rw [← Category.assoc, ← Over.comp_left, tensorHom_snd, Over.comp_left, Category.assoc]
+        show _ = _ ≫ Ψl ≫ _
+        rw [hΨfst]
+    · exact (Over.w (μ[((Over.pullback (spMap (algebraMap k₀ R))).obj B)] ≫ Ψ)).trans (Over.w ((Ψ ⊗ₘ Ψ) ≫ μ[((Over.pullback (spMap (algebraMap k₀ R))).obj B)])).symm
+  have hΨmon : IsMonHom Ψ := ⟨hΨone, hΨmul⟩
+  refine ⟨R, g, Ψ, f₀, σ, hΨmon, ?_, ?_, hσfst, hσsnd, rfl⟩
+
+  have hf0l : f₀.left = σ ≫ ψ := by
+    show σ ≫ Ψl ≫ _ = _
+    rw [hΨfst]
+  have hησ : η[B].left ≫ σ = spMap g.toRingHom ≫ η[((Over.pullback (spMap (algebraMap k₀ R))).obj B)].left := by
+    apply pullback.hom_ext
+    · rw [Category.assoc, hσfst, Category.comp_id, Category.assoc, hηR, ← Category.assoc, hgc]
+      first | exact (Category.id_comp _).symm | simp
+    · rw [Category.assoc, hσsnd, ← Category.assoc, eta_left_hom, Category.id_comp, Category.assoc, hηRs,
+        Category.comp_id]
+  have hf0one : η[B] ≫ f₀ = η[B] := by
+    apply Over.OverMorphism.ext
+    rw [Over.comp_left, hf0l, ← Category.assoc, hησ, Category.assoc, hone, hηR, ← Category.assoc, hgc]
+    first | exact Category.id_comp _ | simp
+  have hτc : (pullback.fst B.hom B.hom ≫ σ) ≫ pullback.snd B.hom (spMap (algebraMap k₀ R)) =
+      (pullback.snd B.hom B.hom ≫ σ) ≫ pullback.snd B.hom (spMap (algebraMap k₀ R)) := by
+    rw [Category.assoc, Category.assoc, hσsnd, ← Category.assoc, ← Category.assoc, pullback.condition]
+  let τ : (B ⊗ B).left ⟶ (((Over.pullback (spMap (algebraMap k₀ R))).obj B) ⊗ ((Over.pullback (spMap (algebraMap k₀ R))).obj B)).left := pullback.lift _ _ hτc
+  have hτ1 : τ ≫ (fst ((Over.pullback (spMap (algebraMap k₀ R))).obj B) ((Over.pullback (spMap (algebraMap k₀ R))).obj B)).left = pullback.fst B.hom B.hom ≫ σ := pullback.lift_fst _ _ _
+  have hτ2 : τ ≫ (snd ((Over.pullback (spMap (algebraMap k₀ R))).obj B) ((Over.pullback (spMap (algebraMap k₀ R))).obj B)).left = pullback.snd B.hom B.hom ≫ σ := pullback.lift_snd _ _ _
+  have e2 : μ[B].left ≫ B.hom = pullback.fst B.hom B.hom ≫ B.hom := Over.w μ[B]
+  have e4 : μ[((Over.pullback (spMap (algebraMap k₀ R))).obj B)].left ≫ pullback.snd B.hom (spMap (algebraMap k₀ R)) = (fst ((Over.pullback (spMap (algebraMap k₀ R))).obj B) ((Over.pullback (spMap (algebraMap k₀ R))).obj B)).left ≫ pullback.snd B.hom (spMap (algebraMap k₀ R)) :=
+    Over.w μ[((Over.pullback (spMap (algebraMap k₀ R))).obj B)]
+  have hτl : τ ≫ pullback.lift ((fst ((Over.pullback (spMap (algebraMap k₀ R))).obj B) ((Over.pullback (spMap (algebraMap k₀ R))).obj B)).left ≫ pullback.fst B.hom (spMap (algebraMap k₀ R)))
+      ((snd ((Over.pullback (spMap (algebraMap k₀ R))).obj B) ((Over.pullback (spMap (algebraMap k₀ R))).obj B)).left ≫ pullback.fst B.hom (spMap (algebraMap k₀ R))) (by
+          rw [Category.assoc, Category.assoc, pullback.condition, ← Category.assoc, ← Category.assoc]
+          congr 1
+          exact (Over.w (fst ((Over.pullback (spMap (algebraMap k₀ R))).obj B) ((Over.pullback (spMap (algebraMap k₀ R))).obj B))).trans (Over.w (snd ((Over.pullback (spMap (algebraMap k₀ R))).obj B) ((Over.pullback (spMap (algebraMap k₀ R))).obj B))).symm) = 𝟙 _ := by
+    apply pullback.hom_ext
+    · rw [Category.assoc]
+      erw [pullback.lift_fst]
+      rw [← Category.assoc, hτ1, Category.assoc, hσfst, Category.comp_id]
+      first | exact (Category.id_comp _).symm | simp
+    · rw [Category.assoc]
+      erw [pullback.lift_snd]
+      rw [← Category.assoc, hτ2, Category.assoc, hσfst, Category.comp_id]
+      first | exact (Category.id_comp _).symm | simp
+  have hμσ : μ[B].left ≫ σ = τ ≫ μ[((Over.pullback (spMap (algebraMap k₀ R))).obj B)].left := by
+    apply pullback.hom_ext
+    · rw [Category.assoc, hσfst, Category.comp_id, Category.assoc, pullback_mu_fst_eq, ← Category.assoc, hτl]
+      first | exact (Category.id_comp _).symm | simp
+    · rw [Category.assoc, hσsnd, ← Category.assoc, e2, Category.assoc, Category.assoc τ, e4,
+        ← Category.assoc τ, hτ1, Category.assoc (pullback.fst B.hom B.hom) σ, hσsnd]
+  have hf0fst : (f₀ ⊗ₘ f₀).left ≫ (fst B B).left = (fst B B).left ≫ f₀.left := by
+    rw [← Over.comp_left, ← Over.comp_left, tensorHom_fst]
+  have hf0snd : (f₀ ⊗ₘ f₀).left ≫ (snd B B).left = (snd B B).left ≫ f₀.left := by
+    rw [← Over.comp_left, ← Over.comp_left, tensorHom_snd]
+  have hf0mul : μ[B] ≫ f₀ = (f₀ ⊗ₘ f₀) ≫ μ[B] := by
+    apply Over.OverMorphism.ext
+    rw [Over.comp_left, Over.comp_left, hf0l, ← Category.assoc, hμσ, Category.assoc, hμψ, ← Category.assoc]
+    congr 1
+    apply pullback.hom_ext
+    · rw [Category.assoc]
+      erw [pullback.lift_fst, hf0fst]
+      rw [← Category.assoc, hτ1, Category.assoc, hf0l]
+      rfl
+    · rw [Category.assoc]
+      erw [pullback.lift_snd, hf0snd]
+      rw [← Category.assoc, hτ2, Category.assoc, hf0l]
+      rfl
+  · exact ⟨hf0one, hf0mul⟩
+  · show bcMap B.hom R.val ≫ Ψl ≫ _ = _
+    rw [hΨfst, hψ2]
+
+end GlobalTheory.Spread
+end -- clump:auto
+end -- clump:auto
+end -- clump:auto
+-- ===== end clump member: Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsAbelianEndomorphismSpreadSpecialise =====
+
+-- ===== clump member: Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsAbelianEndomorphismSpreadSpecialiseStatement =====
+-- clump-header: {"m": "Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsAbelianEndomorphismSpreadSpecialiseStatement", "h": "module\n\npublic import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.MorphismsSpreadOutToFgSubalgebra\npublic import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.AbelianSchemeQuotients.IsAbelianScheme\npublic import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsAbelianEndomorphismSpreadSpecialise\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.Analysis.Complex.UpperHalfPlane.Basic\nimport Mathlib.Analysis.Normed.Algebra.GelfandRadius\nimport Mathlib.Analysis.SpecialFunctions.Bernstein\nimport Mathlib.Analysis.SpecialFunctions.Gamma.Basic\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Data.Nat.Choose.Multinomial\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\n\n"}
+section -- clump:auto
+@[expose] public section
+
+open CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor
+open scoped CategoryTheory.Obj
+
+theorem _root_.GlobalTheory.T.exists_abelian_endomorphism_spread_specialise : ∀ (k₀ K : Type) [Field k₀] [IsAlgClosed k₀] [Field K] [Algebra k₀ K] (B : Over (Sp k₀)) [GrpObj B], IsAbelianScheme B → ∀ f : (Over.pullback (spMap (algebraMap k₀ K))).obj B ⟶ (Over.pullback (spMap (algebraMap k₀ K))).obj B, IsMonHom f → ∃ (R : Subalgebra k₀ K) (g : R →ₐ[k₀] k₀) (Ψ : (Over.pullback (spMap (algebraMap k₀ R))).obj B ⟶ (Over.pullback (spMap (algebraMap k₀ R))).obj B) (f₀ : B ⟶ B) (σ : B.left ⟶ pullback B.hom (spMap (algebraMap k₀ R))), IsMonHom Ψ ∧ IsMonHom f₀ ∧ GlobalTheory.Spread.bcMap B.hom R.val ≫ Ψ.left ≫ pullback.fst _ _ = f.left ≫ pullback.fst _ _ ∧ σ ≫ pullback.fst _ _ = 𝟙 _ ∧ σ ≫ pullback.snd _ _ = B.hom ≫ spMap g.toRingHom ∧ f₀.left = σ ≫ Ψ.left ≫ pullback.fst _ _ := by
+  first | exact @GlobalTheory.Spread.exists_endo_spread_specialise | exact GlobalTheory.Spread.exists_endo_spread_specialise | (intros; apply GlobalTheory.Spread.exists_endo_spread_specialise <;> assumption)
+end -- clump:auto
+end -- clump:auto
+-- ===== end clump member: Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsAbelianEndomorphismSpreadSpecialiseStatement =====
+
+-- ===== clump member: Development.AbelianVarietyTheory.Proofs.DivisorProofs.SpreadEndomorphismTorsionSectionEqSpecialisation =====
+-- clump-header: {"m": "Development.AbelianVarietyTheory.Proofs.DivisorProofs.SpreadEndomorphismTorsionSectionEqSpecialisation", "h": "module\n\npublic import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsCompletedStrictHens\npublic import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.AbelianSchemeQuotients.IsAbelianScheme\npublic import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ThetaTestPowerIntegral\npublic import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsSubgroupEqRangeOfLists\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.AlgebraicGeometry.Modules.Sheaf\nimport Mathlib.Analysis.Complex.UpperHalfPlane.Basic\nimport Mathlib.Analysis.Normed.Algebra.GelfandRadius\nimport Mathlib.Analysis.SpecialFunctions.Bernstein\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Data.Nat.Choose.Multinomial\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.RingTheory.WittVector.IsPoly\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\n\n"}
+section -- clump:auto
+@[expose] public section
+
+open CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor
+open scoped CategoryTheory.Obj
+
+namespace GlobalTheory.TorsCmp
+
+theorem pow_eq_one_of_pullback {S S' : Scheme.{0}} (f : S' ⟶ S) (B : Over S) [GrpObj B]
+    (x : 𝟙_ (Over S') ⟶ (Over.pullback f).obj B) (x₀ : 𝟙_ (Over S) ⟶ B)
+    (hx : f ≫ x₀.left = x.left ≫ pullback.fst B.hom f) (N : ℕ) (h : x₀ ^ N = 1) : x ^ N = 1 := by
+  have e : ∀ k, f ≫ (x₀ ^ k).left = (x ^ k).left ≫ pullback.fst B.hom f := fun k =>
+    GlobalTheory.ZH.MultInt.pow_left_pullback f B (T := 𝟙_ (Over S')) (T₀ := 𝟙_ (Over S)) f
+      (by simp) x x₀ hx k
+  have e0 := e 0
+  have eN := e N
+  rw [h, ← pow_zero x₀, e0] at eN
+  rw [← pow_zero x]
+  apply Over.OverMorphism.ext
+  apply pullback.hom_ext
+  · exact eN.symm
+  · exact (Over.w (x ^ N)).trans (Over.w (x ^ 0)).symm
+
+end GlobalTheory.TorsCmp
+
+
+open GlobalTheory.TorsCmp in
+theorem GlobalTheory.TorsCmp.torsion_section_eq : ∀ (k₀ K : Type) [Field k₀] [IsAlgClosed k₀] [Field K] [Algebra k₀ K] (B : Over (Sp k₀)) [GrpObj B], IsAbelianScheme B → ∀ (R : Subalgebra k₀ K) (g : R →ₐ[k₀] k₀) (Ψ : (Over.pullback (spMap (algebraMap k₀ R))).obj B ⟶ (Over.pullback (spMap (algebraMap k₀ R))).obj B) (f₀ : B ⟶ B) (σ : B.left ⟶ pullback B.hom (spMap (algebraMap k₀ R))), IsMonHom Ψ → IsMonHom f₀ → σ ≫ pullback.fst _ _ = 𝟙 _ → σ ≫ pullback.snd _ _ = B.hom ≫ spMap g.toRingHom → f₀.left = σ ≫ Ψ.left ≫ pullback.fst _ _ → ∀ (N : ℕ), (N : k₀) ≠ 0 → ∀ y₀ : 𝟙_ (Over (Sp k₀)) ⟶ B, y₀ ^ N = 1 → ∀ c : Sp R ⟶ pullback B.hom (spMap (algebraMap k₀ R)), c ≫ pullback.fst _ _ = spMap (algebraMap k₀ R) ≫ y₀.left → c ≫ pullback.snd _ _ = 𝟙 _ → c ≫ Ψ.left ≫ pullback.fst _ _ = spMap (algebraMap k₀ R) ≫ y₀.left ≫ f₀.left := by
+  intro k₀ K _ _ _ _ B _ hB R g Ψ f₀ σ hΨ hf₀ hσ₁ hσ₂ hf N hN y₀ hy₀ c hc₁ hc₂
+  haveI := hΨ
+  haveI := hf₀
+  haveI : IsAbelianScheme ((Over.pullback (spMap (algebraMap k₀ R))).obj B) :=
+    by
+      have := hB.comm
+      have := hB.smooth
+      have := hB.proper
+      have := hB.geomConnected
+      exact
+        { comm := Functor.isCommMonObj_obj
+          smooth := by change Smooth (pullback.snd B.hom _); infer_instance
+          proper := by change IsProper (pullback.snd B.hom _); infer_instance
+          geomConnected := by change GeometricallyConnected (pullback.snd B.hom _); infer_instance }
+  have hgf : spMap g.toRingHom ≫ spMap (algebraMap k₀ R) = 𝟙 _ := by
+    rw [← Spec.map_comp, ← CommRingCat.ofHom_comp]
+    have : g.toRingHom.comp (algebraMap k₀ R) = RingHom.id k₀ := by
+      ext r; exact g.commutes r
+    rw [this]; exact Spec.map_id _
+  have hNR : IsUnit (N : Γ(Sp R, ⊤)) := by
+    have h1 : IsUnit (N : k₀) := Ne.isUnit hN
+    have h2 : IsUnit (N : R) := by simpa using h1.map (algebraMap k₀ R)
+    simpa using h2.map (Scheme.ΓSpecIso (CommRingCat.of R)).inv.hom
+  let cc : 𝟙_ (Over (Sp R)) ⟶ (Over.pullback (spMap (algebraMap k₀ R))).obj B :=
+    Over.homMk c (by exact hc₂)
+  let bb : 𝟙_ (Over (Sp R)) ⟶ (Over.pullback (spMap (algebraMap k₀ R))).obj B :=
+    Over.homMk (pullback.lift (spMap (algebraMap k₀ R) ≫ y₀.left ≫ f₀.left) (𝟙 _) (by
+      rw [Category.assoc, Category.assoc, Over.w f₀, Over.w y₀, Category.id_comp]; rfl))
+      (pullback.lift_snd _ _ _)
+  have hcc : cc ^ N = 1 := pow_eq_one_of_pullback _ B cc y₀ hc₁.symm N hy₀
+  have ha : (cc ≫ Ψ) ^ N = 1 := by rw [← MonObj.pow_comp, hcc, MonObj.one_comp]
+  have hb : bb ^ N = 1 := by
+    refine pow_eq_one_of_pullback _ B bb (y₀ ≫ f₀) (pullback.lift_fst _ _ _).symm N ?_
+    rw [← MonObj.pow_comp, hy₀, MonObj.one_comp]
+  have hxc : spMap g.toRingHom ≫ c = y₀.left ≫ σ := by
+    apply pullback.hom_ext
+    · rw [Category.assoc, hc₁, reassoc_of% hgf, Category.assoc, hσ₁, Category.comp_id]
+    · rw [Category.assoc, hc₂, Category.assoc, hσ₂, ← Category.assoc, Over.w y₀]
+      exact (Category.comp_id _).trans (Category.id_comp _).symm
+  have hpt : spMap g.toRingHom ≫ (cc ≫ Ψ).left = spMap g.toRingHom ≫ bb.left := by
+    apply pullback.hom_ext
+    · change spMap g.toRingHom ≫ c ≫ Ψ.left ≫ _ = spMap g.toRingHom ≫ pullback.lift _ _ _ ≫ _
+      rw [reassoc_of% hxc, ← hf, pullback.lift_fst, reassoc_of% hgf]
+    · rw [Category.assoc, Category.assoc]
+      exact congrArg _ ((Over.w (cc ≫ Ψ)).trans (Over.w bb).symm)
+  have hab := GlobalTheory.HkFam.ListedSubgroup.section_eq _ hNR ha hb (spMap g.toRingHom) hpt
+  have := congrArg (fun z => z.left ≫ pullback.fst B.hom (spMap (algebraMap k₀ R))) hab
+  simp only [cc, bb, Over.comp_left, Over.homMk_left, Category.assoc] at this
+  simpa only [pullback.lift_fst] using this
+end -- clump:auto
+end -- clump:auto
+-- ===== end clump member: Development.AbelianVarietyTheory.Proofs.DivisorProofs.SpreadEndomorphismTorsionSectionEqSpecialisation =====
+
+-- ===== clump member: Development.AbelianVarietyTheory.Proofs.DivisorProofs.SpreadEndomorphismTorsionSectionEqSpecialisationStatement =====
+-- clump-header: {"m": "Development.AbelianVarietyTheory.Proofs.DivisorProofs.SpreadEndomorphismTorsionSectionEqSpecialisationStatement", "h": "module\n\npublic import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsCompletedStrictHens\npublic import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.AbelianSchemeQuotients.IsAbelianScheme\npublic import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SpreadEndomorphismTorsionSectionEqSpecialisation\nimport Mathlib.Algebra.Order.Floor.Extended\nimport Mathlib.Algebra.Order.Floor.Semifield\nimport Mathlib.Algebra.Order.Interval.Basic\nimport Mathlib.Analysis.Complex.UpperHalfPlane.Basic\nimport Mathlib.Analysis.Normed.Algebra.GelfandRadius\nimport Mathlib.Analysis.SpecialFunctions.Bernstein\nimport Mathlib.Analysis.SpecialFunctions.Gamma.Basic\nimport Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp\nimport Mathlib.Combinatorics.Enumerative.DyckWord\nimport Mathlib.Combinatorics.SimpleGraph.Triangle.Removal\nimport Mathlib.Data.NNRat.Floor\nimport Mathlib.Data.Nat.Choose.Multinomial\nimport Mathlib.Geometry.Euclidean.Volume.Basic\nimport Mathlib.NumberTheory.Chebyshev\nimport Mathlib.NumberTheory.Height.NumberField\nimport Mathlib.NumberTheory.Height.Projectivization\nimport Mathlib.NumberTheory.LucasLehmer\nimport Mathlib.NumberTheory.SelbergSieve\nimport Mathlib.RingTheory.Radical.NatInt\nimport Mathlib.Tactic.Echelon.Zsqrtd\nimport Mathlib.Tactic.Inclusion.Extension.Core.Core\nimport Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp\nimport Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic\nimport Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses\nimport Mathlib.Tactic.NormNum.Irrational\nimport Mathlib.Tactic.NormNum.IsCoprime\nimport Mathlib.Tactic.NormNum.IsSquare\nimport Mathlib.Tactic.NormNum.LegendreSymbol\nimport Mathlib.Tactic.NormNum.ModEq\nimport Mathlib.Tactic.NormNum.NatFib\nimport Mathlib.Tactic.NormNum.NatLog\nimport Mathlib.Tactic.NormNum.NatSqrt\nimport Mathlib.Tactic.NormNum.Ordinal\nimport Mathlib.Tactic.NormNum.Parity\nimport Mathlib.Tactic.NormNum.Prime\nimport Mathlib.Tactic.NormNum.RealSqrt\n\n"}
+section -- clump:auto
+@[expose] public section
+
+open CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor
+open scoped CategoryTheory.Obj
+
+theorem _root_.GlobalTheory.T.spread_endomorphism_torsion_section_eq_specialisation : ∀ (k₀ K : Type) [Field k₀] [IsAlgClosed k₀] [Field K] [Algebra k₀ K] (B : Over (Sp k₀)) [GrpObj B], IsAbelianScheme B → ∀ (R : Subalgebra k₀ K) (g : R →ₐ[k₀] k₀) (Ψ : (Over.pullback (spMap (algebraMap k₀ R))).obj B ⟶ (Over.pullback (spMap (algebraMap k₀ R))).obj B) (f₀ : B ⟶ B) (σ : B.left ⟶ pullback B.hom (spMap (algebraMap k₀ R))), IsMonHom Ψ → IsMonHom f₀ → σ ≫ pullback.fst _ _ = 𝟙 _ → σ ≫ pullback.snd _ _ = B.hom ≫ spMap g.toRingHom → f₀.left = σ ≫ Ψ.left ≫ pullback.fst _ _ → ∀ (N : ℕ), (N : k₀) ≠ 0 → ∀ y₀ : 𝟙_ (Over (Sp k₀)) ⟶ B, y₀ ^ N = 1 → ∀ c : Sp R ⟶ pullback B.hom (spMap (algebraMap k₀ R)), c ≫ pullback.fst _ _ = spMap (algebraMap k₀ R) ≫ y₀.left → c ≫ pullback.snd _ _ = 𝟙 _ → c ≫ Ψ.left ≫ pullback.fst _ _ = spMap (algebraMap k₀ R) ≫ y₀.left ≫ f₀.left := by
+  first | exact @GlobalTheory.TorsCmp.torsion_section_eq | exact GlobalTheory.TorsCmp.torsion_section_eq | (intros; apply GlobalTheory.TorsCmp.torsion_section_eq <;> assumption)
+end -- clump:auto
+end -- clump:auto
+-- ===== end clump member: Development.AbelianVarietyTheory.Proofs.DivisorProofs.SpreadEndomorphismTorsionSectionEqSpecialisationStatement =====
+
+-- ===== clump member: Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteEtalePointOfExt =====
+-- clump-header: {"m": "Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteEtalePointOfExt", "h": "module\n\npublic import Mathlib\npublic import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.MorphismsSpreadOutToFgSubalgebra\npublic import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.AbelianSchemeLawsUnconditional\npublic import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.SemistableExtensionMultiplesOfSemistable\npublic import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.IsAbelianSchemeAndExtendOfGenericHoms\npublic import Development.AbelianVarietyTheory.Proofs.ModuliProofs.FinitePointsOfIsOpenImmersion\npublic import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsSubgroupEqRangeOfLists\npublic import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.IsIsoIffBijectiveOverAlgClosed\npublic import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.FormallyUnramifiedOfTangentMapInjective\npublic import Development.AbelianVarietyTheory.Proofs.ModuliProofs.OActDescendOfGenerators\npublic import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsBasePointOfFiniteEtaleOverAlgClosedStatement\npublic import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsAbelianEndomorphismSpreadSpecialiseStatement\npublic import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SpreadEndomorphismTorsionSectionEqSpecialisationStatement\n\n"}
+section -- clump:auto
 @[expose] public section
 
 open CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry
@@ -219,3 +707,7 @@ theorem point_descent (B : Over (Sp k₀)) [GrpObj B] (hB : IsAbelianScheme B) (
     rw [← cancel_epi (spMap (algebraMap k₀ K)), ← hy₁.2, hy₀]
 
 end GlobalTheory.AlgClosedDescent
+end -- clump:auto
+end -- clump:auto
+end -- clump:auto
+-- ===== end clump member: Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteEtalePointOfExt =====
