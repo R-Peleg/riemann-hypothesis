@@ -26,6 +26,10 @@ Usage:
     clump.py plan   ROOT [--max-lines N] [--out plan.json]
     clump.py apply  ROOT plan.json
     clump.py unclump ROOT
+    clump.py blame  ROOT build.log...   # members containing build errors, for clump-exclude.txt
+
+Members that fail to compile once clumped (e.g. because a sibling member's declarations or
+imports change how a name resolves) are listed in scripts/clump-exclude.txt and stay standalone.
 """
 
 import argparse
@@ -110,7 +114,7 @@ def load(root):
 # ---------------------------------------------------------------------------
 # Planning
 
-def plan(mods, max_lines):
+def plan(mods, max_lines, exclude=frozenset()):
     deps = {m: list(dict.fromkeys(x for x, _ in mods[m].imports if x in mods)) for m in mods}
     rev = collections.defaultdict(list)
     for m, ds in deps.items():
@@ -118,7 +122,8 @@ def plan(mods, max_lines):
             rev[x].append(m)
 
     def clumpable(m):
-        return lib_of(m) not in PROTECTED_LIBS and not mods[m].exotic and not is_clump_file(mods[m])
+        return (lib_of(m) not in PROTECTED_LIBS and not mods[m].exotic and m not in exclude
+                and not is_clump_file(mods[m]))
 
     # Reverse topological order: dependencies before importers.
     indeg = {m: len(deps[m]) for m in mods}
@@ -362,6 +367,39 @@ def unclump(root):
 
 # ---------------------------------------------------------------------------
 
+def blame(root, logs):
+    """Map `error: <file>:<line>:...` lines in build logs to the clump member containing them."""
+    err = re.compile(r"^error: (src/\S+?\.lean):(\d+):")
+    found = set()
+    for log in logs:
+        with open(log, encoding="utf-8", errors="replace") as f:
+            for l in f:
+                m = err.match(l)
+                if not m:
+                    continue
+                path, line = m.group(1), int(m.group(2))
+                try:
+                    with open(os.path.join(root, path), encoding="utf-8") as g:
+                        lines = g.read().split("\n")[:line]
+                except FileNotFoundError:
+                    continue
+                member = None
+                for x in reversed(lines):
+                    if x.startswith(SEAM_BEGIN):
+                        member = x[len(SEAM_BEGIN):].rstrip(" =")
+                        break
+                if member:
+                    found.add(member)
+    return sorted(found)
+
+
+def read_exclude(path):
+    if not path or not os.path.exists(path):
+        return frozenset()
+    with open(path) as f:
+        return frozenset(l.split("#")[0].strip() for l in f if l.split("#")[0].strip())
+
+
 def stats(mods, clumps, max_lines):
     gone = sum(len(o) - 1 for o in clumps.values())
     print(f"modules {len(mods)}  clumps {len(clumps)}  absorbed {gone}  "
@@ -383,12 +421,16 @@ def main():
     sub = ap.add_subparsers(dest="cmd", required=True)
     p = sub.add_parser("plan"); p.add_argument("root"); p.add_argument("--max-lines", type=int, default=10000)
     p.add_argument("--out")
+    p.add_argument("--exclude", default=os.path.join(os.path.dirname(__file__), "clump-exclude.txt"),
+                   help="modules never to fold (one per line; default scripts/clump-exclude.txt)")
+    b = sub.add_parser("blame", help="list clump members containing errors in build logs")
+    b.add_argument("root"); b.add_argument("logs", nargs="+")
     a = sub.add_parser("apply"); a.add_argument("root"); a.add_argument("plan")
     u = sub.add_parser("unclump"); u.add_argument("root")
     args = ap.parse_args()
     if args.cmd == "plan":
         mods = load(args.root)
-        clumps = plan(mods, args.max_lines)
+        clumps = plan(mods, args.max_lines, read_exclude(args.exclude))
         stats(mods, clumps, args.max_lines)
         if args.out:
             with open(args.out, "w") as f:
@@ -396,6 +438,8 @@ def main():
     elif args.cmd == "apply":
         with open(args.plan) as f:
             apply(args.root, json.load(f))
+    elif args.cmd == "blame":
+        print("\n".join(blame(args.root, args.logs)))
     else:
         unclump(args.root)
 
