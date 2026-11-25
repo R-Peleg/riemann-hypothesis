@@ -313,12 +313,11 @@ theorem conj_u {g : Mat k r} {D Y Z : Matrix (Fin r) (Fin r) ℂ} {M : Matrix (F
     simp only [Matrix.mul_apply, sum3, hee, hew, hes, hwe, hww, hws, hse, hsw, hss, _root_.GlobalTheory.Amp.UEmb.u_ee, _root_.GlobalTheory.Amp.UEmb.u_es,
       _root_.GlobalTheory.Amp.UEmb.u_se, u_ew, u_we, u_ww, u_ws, u_sw, u_ss, mul_zero, zero_mul, Finset.sum_const_zero, add_zero,
       zero_add, mul_ite, ite_mul, mul_one, one_mul, Finset.sum_ite_eq, Finset.sum_ite_eq', Finset.mem_univ,
-      if_true]
-  all_goals first
-    | simpa only [Matrix.mul_apply] using congrFun (congrFun h1 _) _
-    | simpa only [Matrix.mul_apply] using congrFun (congrFun h2 _) _
-    | simpa only [Matrix.mul_apply] using congrFun (congrFun h3 _) _
-    | simpa only [Matrix.mul_apply] using congrFun (congrFun h4 _) _
+      ite_true]
+  . simpa only [Matrix.mul_apply] using congrFun (congrFun h1 _) _
+  . simpa only [Matrix.mul_apply] using congrFun (congrFun h2 _) _
+  . simpa only [Matrix.mul_apply] using congrFun (congrFun h3 _) _
+  . simpa only [Matrix.mul_apply] using congrFun (congrFun h4 _) _
 
 theorem alg {Y Z F u : Matrix (Fin r) (Fin r) ℂ} (c : ℂ) (hu : IsUnit u.det) (hF : Fᴴ = F) (hFF : F * F = F)
     (hYZ : Yᴴ * Z = 1 - F) (hZY : Y * Zᴴ = 1 - F) (hFY : F * Y = 0) (hYF : Y * F = 0) (hFZ : F * Z = 0) (hZF : Z * F = 0)
